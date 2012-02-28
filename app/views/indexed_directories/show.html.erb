@@ -1,0 +1,84 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @indexed_directory.name %>
+  <b>Size:</b>
+  <%= hsize(@indexed_directory.size) %>
+</p>
+
+<% if @indexed_directory.parent_id != 0 %>
+    <p>
+      <b>Directory Parent:</b>
+      <%= link_to @indexed_directory.fullpath, indexed_directory_path(@indexed_directory.parent.id) %>
+      (<%= @indexed_directory.parent.id %>)
+    </p>
+<% end %>
+
+<p>
+  <b>Device:</b>
+  <%= @indexed_directory.device.name %>
+</p>
+
+<p>
+  <b>Symboliclink:</b>
+  <%= @indexed_directory.symboliclink %>
+</p>
+
+<p>
+  <b>Indexable:</b>
+  <%= @indexed_directory.indexable %>
+</p>
+
+<p>
+  <b>Sortable:</b>
+  <%= @indexed_directory.sortable %>
+</p>
+
+<p>
+  <b>Recursive:</b>
+  <%= @indexed_directory.recursive %>
+</p>
+
+<p>
+  <b>Indexed:</b>
+  <%= @indexed_directory.indexed %>
+</p>
+
+<p>
+  <b>Deleted:</b>
+  <%= @indexed_directory.deleted %>
+</p>
+
+<p>
+  <b>Subdirectories:</b>
+</p>
+<ul>
+  <% @indexed_directory.indexed_directories.each do |directory| %>
+      <li><%= link_to directory.name, indexed_directory_path(directory) %></li>
+  <% end %>
+</ul>
+
+<p>
+  <b>Files:</b>
+</p>
+
+<table>
+  <tbody>
+  <tr>
+    <th>Name</th>
+    <th>Size</th>
+    <th>Md5</th>
+  </tr>
+  <% @indexed_directory.indexed_files.each do |file| %>
+      <tr>
+        <td><%= file.name %></td>
+        <td><%= hsize(file.size) %></td>
+        <td><%= file.md5 %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Edit', edit_indexed_directory_path(@indexed_directory) %> |
+<%= link_to 'Back', indexed_directories_path %>

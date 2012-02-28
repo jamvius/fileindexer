@@ -1,0 +1,10 @@
+rake db:create
+Generar el modelo 
+rails generate scaffold Device name:string description:text
+rails generate scaffold IndexerTask name:string recursive:boolean status:integer device:references -f
+rails generate scaffold IndexedDirectory name:string size:integer directory:references device:references simboliclink:boolean indexable:boolean sortable:boolean recursive:boolean indexed:boolean
+rails generate scaffold IndexedFile name:string size:integer hash:string directory:references simboliclink:boolean
+rake db:migrate
+
+el db:setup ejecuta en schema.rb y el seed.rb, pero si se cambia los archivos de migrate no se actualiza el schema.rb
+automaticamente (no se cuando)

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  recursive: false
+  status: 1
+  device: 
+
+two:
+  name: MyString
+  recursive: false
+  status: 1
+  device: 

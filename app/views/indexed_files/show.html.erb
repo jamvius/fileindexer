@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @indexed_file.name %>
+</p>
+
+<p>
+  <b>Size:</b>
+  <%= @indexed_file.size %>
+</p>
+
+<p>
+  <b>Hash:</b>
+  <%= @indexed_file.hash %>
+</p>
+
+<p>
+  <b>Directory:</b>
+  <%= @indexed_file.parent.name %>
+</p>
+
+<p>
+  <b>Simboliclink:</b>
+  <%= @indexed_file.symboliclink %>
+</p>
+<p>
+  <b>Full Path:</b>
+  <%= @indexed_file.fullpath %>
+</p>
+
+<%= link_to 'Edit', edit_indexed_file_path(@indexed_file) %> |
+<%= link_to 'Back', indexed_files_path %>

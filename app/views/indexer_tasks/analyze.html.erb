@@ -1,0 +1,17 @@
+<%
+require "digest/md5"
+%>
+
+<%= @indexer_task.name %><br/>
+<ul>
+  <% @all_files_photos.each { |x| %>
+      <% if FileTest.directory?(x) %>
+          <li><%= x %></li>
+      <% else %>
+          <li>
+            <%= x %>, <%= FileTest.size(x) %>,
+            <%= Digest::MD5.hexdigest(File.binread(x)) %>
+          </li>
+      <% end %>
+  <% } %>
+</ul>

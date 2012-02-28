@@ -1,0 +1,31 @@
+<h1>Listing indexed_files</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Size</th>
+    <th>Hash</th>
+    <th>Directory</th>
+    <th>Simboliclink</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @indexed_files.each do |indexed_file| %>
+  <tr>
+    <td><%= indexed_file.name %></td>
+    <td><%= indexed_file.size %></td>
+    <td><%= indexed_file.hash %></td>
+    <td><%= indexed_file.parent.name %></td>
+    <td><%= indexed_file.symboliclink %></td>
+    <td><%= link_to 'Show', indexed_file %></td>
+    <td><%= link_to 'Edit', edit_indexed_file_path(indexed_file) %></td>
+    <td><%= link_to 'Destroy', indexed_file, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Indexed file', new_indexed_file_path %>

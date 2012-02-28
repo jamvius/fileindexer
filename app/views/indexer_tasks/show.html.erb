@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @indexer_task.name %>
+</p>
+
+<p>
+  <b>Recursive:</b>
+  <%= @indexer_task.recursive %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @indexer_task.status %>
+</p>
+
+<p>
+  <b>Device:</b>
+  <%= @indexer_task.device %>
+</p>
+
+
+<%= link_to 'Edit', edit_indexer_task_path(@indexer_task) %> |
+<%= link_to 'Back', indexer_tasks_path %>

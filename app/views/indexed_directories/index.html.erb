@@ -1,0 +1,43 @@
+<h1>Listing indexed_directories</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Size</th>
+    <th>ParentId</th>
+    <th>Directory</th>
+    <th>Device</th>
+    <th>Simboliclink</th>
+    <th>Indexable</th>
+    <th>Sortable</th>
+    <th>Recursive</th>
+    <th>Indexed</th>
+    <th>Deleted</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @indexed_directories.each do |indexed_directory| %>
+  <tr>
+    <td><%= indexed_directory.name %></td>
+    <td><%= indexed_directory.size %></td>
+    <td><%= indexed_directory.parent_id %></td>
+    <td><%= indexed_directory.fullpath %></td>
+    <td><%= indexed_directory.device %></td>
+    <td><%= indexed_directory.symboliclink %></td>
+    <td><%= indexed_directory.indexable %></td>
+    <td><%= indexed_directory.sortable %></td>
+    <td><%= indexed_directory.recursive %></td>
+    <td><%= indexed_directory.indexed %></td>
+    <td><%= indexed_directory.deleted %></td>
+    <td><%= link_to 'Show', indexed_directory %></td>
+    <td><%= link_to 'Edit', edit_indexed_directory_path(indexed_directory) %></td>
+    <td><%= link_to 'Destroy', indexed_directory, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Indexed directory', new_indexed_directory_path %>

@@ -1,0 +1,40 @@
+<div class="index">
+
+<h2>Listing indexer_tasks</h2>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Recursive</th>
+    <th>Overwrite</th>
+    <th>Status</th>
+    <th>Device</th>
+    <th>Actions</th>
+  </tr>
+
+  <% @indexer_tasks.each do |indexer_task| %>
+      <tr>
+        <td><%= indexer_task.name %></td>
+        <td><%= indexer_task.recursive? %></td>
+        <td><%= indexer_task.overwrite? %></td>
+        <td><%= indexer_task.status %></td>
+        <td><%= link_to indexer_task.device.name, device_path(indexer_task.device.id) %></td>
+
+        <td class="actions">
+          <%= link_to 'Show', indexer_task %>
+          <%= link_to 'Analyze', analyze_indexer_task_path(indexer_task) %>
+          <%= link_to 'Edit', edit_indexer_task_path(indexer_task) %>
+          <%= link_to 'Destroy', indexer_task, confirm: 'Are you sure?', method: :delete %>
+        </td>
+      </tr>
+  <% end %>
+</table>
+
+</div>
+
+<br />
+
+<div class="actions">
+  <%= link_to 'New Indexer task', new_indexer_task_path %>
+</div>
+
