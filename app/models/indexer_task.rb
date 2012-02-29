@@ -12,10 +12,14 @@ class IndexerTask < ActiveRecord::Base
   end
 
   def run
-    logger.info("Indexando #{self.name}")
-    self.update_column(:status, 1)
-    self.indexed_directory.index
-    self.update_column(:status, 2)
+    logger.info("Indexando #{self.name} -> status #{self.status}")
+    if self.status == 0
+      self.update_column(:status, 1)
+      self.indexed_directory.index
+      self.update_column(:status, 2)
+    else
+      logger.info("Task ya procesada")
+    end
   end
 
 end
