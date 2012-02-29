@@ -70,28 +70,30 @@ class IndexedDirectory < ActiveRecord::Base
 
     logger.info "Indexando #{self.device_id}: #{self.fullpath}, #{recursive}, #{overwrite}"
 
-    childsdirectories = []
-    if self.indexed?
-      if overwrite
-         # Borrar los archivos que ya no existe
-        self.refresh
+    if self.indexable?
+      childsdirectories = []
+      if self.indexed?
+        if overwrite
+          # Borrar los archivos que ya no existe
+          self.refresh
+          # Indexar contenido
+          childsdirectories = self.index_content overwrite
+        end
+      else
         # Indexar contenido
         childsdirectories = self.index_content overwrite
       end
-    else
-      # Indexar contenido
-      childsdirectories = self.index_content overwrite
-    end
 
-    if recursive
-      # Indexar subdirectorios
-      childsdirectories.each do |child_directory|
-        child_directory.index recursive, overwrite
+      if recursive
+        # Indexar subdirectorios
+        childsdirectories.each do |child_directory|
+          child_directory.index recursive, overwrite
+        end
       end
-    end
 
-    self.update_column(:indexed,true)
-    self.calculatesize
+      self.update_column(:indexed, true)
+      self.calculatesize
+    end
 
     logger.info "Indexando #{self.device_id}: #{self.fullpath}, #{recursive} finalizado"
 
@@ -101,25 +103,23 @@ class IndexedDirectory < ActiveRecord::Base
     childsdirectories = []
     files_directory = Dir.glob("*")
     files_directory.each do |file|
+      logger.info "Analizando content #{file}"
       if FileTest.directory?(file)
         childsdirectories << IndexedDirectory.find_or_create_directory(file, self.id, self.device_id)
       else
         size = FileTest.size(file)
         md5 = Digest::MD5.hexdigest(File.binread(file))
-        indexedfile = IndexedFile.where(:name => file, :parent_id => self.id)
-        if indexedfile == nil
-          IndexedFile.create(:name => file, :parent_id => self.id, :size => size, :md5 => md5)
-        else
-          if overwrite
-            indexedfile.update_attributes(:size => size, :md5 => md5)
-          end
+        indexedfile = IndexedFile.where(:name => file, :parent_id => self.id).first_or_create(:size => size, :md5 => md5)
+        if !indexedfile.new_record? && overwrite
+          logger.info "Actualizando info de #{file}"
+          indexedfile.update_attributes(:size => size, :md5 => md5)
         end
       end
     end
     childsdirectories
   end
 
-  # Actualiza la informacion guardada con la existente en el disco
+  # Marca como deleted los elementos que ya no estan en disco
   def refresh
     self.go_to
     resources = Dir.glob("*")
