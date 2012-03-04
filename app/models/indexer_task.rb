@@ -15,7 +15,7 @@ class IndexerTask < ActiveRecord::Base
     logger.info("Indexando #{self.name} -> status #{self.status}")
     if self.status == 0
       self.update_column(:status, 1)
-      self.indexed_directory.index
+      self.indexed_directory.index(self.recursive,self.overwrite)
       self.update_column(:status, 2)
     else
       logger.info("Task ya procesada")

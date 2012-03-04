@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Name:</b>
+  <strong>Name:</strong>
   <%= @indexed_directory.name %>
   <b>Size:</b>
   <%= hsize(@indexed_directory.size) %>
@@ -55,7 +55,7 @@
 </p>
 <ul>
   <% @indexed_directory.indexed_directories.each do |directory| %>
-      <li><%= link_to directory.name, indexed_directory_path(directory) %></li>
+      <li><%= link_to directory.name, indexed_directory_path(directory) %>, <%= directory.indexed %></li>
   <% end %>
 </ul>
 

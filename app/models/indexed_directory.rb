@@ -71,20 +71,15 @@ class IndexedDirectory < ActiveRecord::Base
     logger.info "Indexando #{self.device_id}: #{self.fullpath}, #{recursive}, #{overwrite}"
 
     if self.indexable?
-      childsdirectories = []
-      if self.indexed?
-        if overwrite
+      if self.indexed? && overwrite
           # Borrar los archivos que ya no existe
           self.refresh
-          # Indexar contenido
-          childsdirectories = self.index_content overwrite
-        end
-      else
-        # Indexar contenido
-        childsdirectories = self.index_content overwrite
       end
+      # Indexar contenido
+      childsdirectories = self.index_content overwrite
 
       if recursive
+        logger.info "Flag recursive, recorremos los hijos #{childsdirectories}"
         # Indexar subdirectorios
         childsdirectories.each do |child_directory|
           child_directory.index recursive, overwrite
@@ -102,13 +97,19 @@ class IndexedDirectory < ActiveRecord::Base
   def index_content(overwrite = false)
     childsdirectories = []
     files_directory = Dir.glob("*")
+    logger.info "archivos encontrado #{files_directory}"
     files_directory.each do |file|
       logger.info "Analizando content #{file}"
       if FileTest.directory?(file)
         childsdirectories << IndexedDirectory.find_or_create_directory(file, self.id, self.device_id)
       else
         size = FileTest.size(file)
-        md5 = Digest::MD5.hexdigest(File.binread(file))
+        if size > 1024*1024*10
+          md5 = "aaaaafffff"
+        else
+          md5 = Digest::MD5.hexdigest(File.binread(file))
+        end
+
         indexedfile = IndexedFile.where(:name => file, :parent_id => self.id).first_or_create(:size => size, :md5 => md5)
         if !indexedfile.new_record? && overwrite
           logger.info "Actualizando info de #{file}"
