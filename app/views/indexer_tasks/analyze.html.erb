@@ -4,7 +4,7 @@ require "digest/md5"
 
 <%= @indexer_task.name %><br/>
 <ul>
-  <% @all_files_photos.each { |x| %>
+  <% @files_directory.each { |x| %>
       <% if FileTest.directory?(x) %>
           <li><%= x %></li>
       <% else %>

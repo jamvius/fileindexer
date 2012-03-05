@@ -23,17 +23,20 @@ ActiveRecord::Schema.define(:version => 20120216105248) do
   create_table "indexed_directories", :force => true do |t|
     t.string   "name"
     t.string   "path"
-    t.integer  "size",         :default => 0
+    t.integer  "size",                     :default => 0
     t.integer  "parent_id"
     t.integer  "device_id"
-    t.boolean  "symboliclink", :default => false
-    t.boolean  "indexable",    :default => true
-    t.boolean  "sortable",     :default => false
-    t.boolean  "recursive",    :default => false
-    t.boolean  "indexed",      :default => false
-    t.boolean  "deleted",      :default => false
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
+    t.boolean  "symboliclink",             :default => false
+    t.boolean  "indexable",                :default => true
+    t.boolean  "sortable",                 :default => false
+    t.boolean  "recursive",                :default => false
+    t.boolean  "indexed",                  :default => false
+    t.boolean  "recursive_indexed",        :default => false
+    t.integer  "recursive_numfiles",       :default => 0
+    t.integer  "recursive_numdirectories", :default => 0
+    t.boolean  "deleted",                  :default => false
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
   end
 
   add_index "indexed_directories", ["device_id"], :name => "index_indexed_directories_on_device_id"

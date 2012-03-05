@@ -1,5 +1,3 @@
-require "digest/md5"
-
 class IndexerTasksController < ApplicationController
   # GET /indexer_tasks
   # GET /indexer_tasks.json

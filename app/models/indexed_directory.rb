@@ -40,8 +40,6 @@ class IndexedDirectory < ActiveRecord::Base
   def fullpath
     if self.path == nil
       self.update_column(:path, calculatepath)
-      #self.path = calculatepath
-      #self.save
     end
     self.path
   end
@@ -57,12 +55,6 @@ class IndexedDirectory < ActiveRecord::Base
         parent_fullpath + "/" + self.name
       end
     end
-  end
-
-  def calculatesize
-    self.size = IndexedDirectory.where(:parent_id => self.id).sum(:size) + IndexedFile.where(:parent_id => self.id).sum(:size)
-    logger.info "Tamany del directorio #{self.name} = #{self.size}"
-    self.save
   end
 
   def index(recursive = false, overwrite = false)
@@ -86,11 +78,33 @@ class IndexedDirectory < ActiveRecord::Base
         end
       end
 
-      self.update_column(:indexed, true)
-      self.calculatesize
+      self.update_stats
     end
 
     logger.info "Indexando #{self.device_id}: #{self.fullpath}, #{recursive} finalizado"
+
+  end
+
+  def update_stats(recursive = false)
+    if recursive
+      self.indexed_directories.each {|directory| directory.update_stats(recursive)}
+    end
+
+    logger.info "Stats size: #{self.size}, #{self.indexed?}"
+    new_size = self.indexed_directories.inject(0) { |total, directory| total + directory.size }
+    new_size = self.indexed_files.inject(new_size) { |total, file| total + file.size }
+
+    childs_indexed = self.indexed_directories.all? { |directory| directory.indexed? }
+
+    num_files = self.indexed_directories.inject(self.indexed_files.size) { |total, directory|
+      total + directory.recursive_numfiles
+    }
+    num_directories = self.indexed_directories.inject(self.indexed_directories.size) { |total, directory|
+      total + directory.recursive_numdirectories
+    }
+
+    logger.info "Actualizando stats size: #{new_size}, #{childs_indexed} + #{self.indexed?}"
+    self.update_attributes(:size => new_size, :indexed => true, :recursive_indexed => childs_indexed, :recursive_numfiles => num_files, :recursive_numdirectories => num_directories)
 
   end
 
@@ -104,16 +118,17 @@ class IndexedDirectory < ActiveRecord::Base
         childsdirectories << IndexedDirectory.find_or_create_directory(file, self.id, self.device_id)
       else
         size = FileTest.size(file)
-        if size > 1024*1024*10
-          md5 = "aaaaafffff"
-        else
-          md5 = Digest::MD5.hexdigest(File.binread(file))
-        end
+        # Comento el md5 por temas de rendimiento
+        #if size > 1024*1024*10
+        #  md5 = "aaaaafffff"
+        #else
+        #  md5 = Digest::MD5.hexdigest(File.binread(file))
+        #end
 
-        indexedfile = IndexedFile.where(:name => file, :parent_id => self.id).first_or_create(:size => size, :md5 => md5)
+        indexedfile = IndexedFile.where(:name => file, :parent_id => self.id).first_or_create(:size => size)
         if !indexedfile.new_record? && overwrite
           logger.info "Actualizando info de #{file}"
-          indexedfile.update_attributes(:size => size, :md5 => md5)
+          indexedfile.update_attributes(:size => size)
         end
       end
     end
@@ -143,7 +158,7 @@ class IndexedDirectory < ActiveRecord::Base
   end
 
   def go_to
-    Dir.chdir(self.device.name + "/" + self.fullpath)
+    Dir.chdir(File.join(self.device.name,self.fullpath))
   end
 
 

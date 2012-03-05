@@ -11,6 +11,9 @@ class CreateIndexedDirectories < ActiveRecord::Migration
       t.boolean :sortable, :default => false
       t.boolean :recursive, :default => false
       t.boolean :indexed, :default => false
+      t.boolean :recursive_indexed, :default => false
+      t.integer :recursive_numfiles, :default => 0
+      t.integer :recursive_numdirectories, :default => 0
       t.boolean :deleted, :default => false
 
       t.timestamps
