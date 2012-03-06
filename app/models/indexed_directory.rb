@@ -5,13 +5,15 @@ class IndexedDirectory < ActiveRecord::Base
   has_many :indexed_files, :foreign_key => "parent_id"
   has_many :indexed_directories, :foreign_key => "parent_id"
 
+  ROOT_NAME = "/"
+
   # NOTA: Para que esto sea un scope, deberia devolver un ActiveRecord:Relation,
   # pero al devolver un solo 1 registro,  no es posible
   # Los metodos "IndexedDirectory." son asociados a la clase, no la instancia
 
   def IndexedDirectory.find_or_create_directory(name, parent_id, device_id)
     if name.empty?
-      name = "/"
+      name = ROOT_NAME
       parent_id = 0
     end
     where(:name => name, :parent_id => parent_id, :device_id => device_id).first_or_create(:indexed => false)
@@ -45,11 +47,11 @@ class IndexedDirectory < ActiveRecord::Base
   end
 
   def calculatepath
-    if self.name == "/"
-      "/"
+    if self.name == ROOT_NAME
+      ROOT_NAME
     else
       parent_fullpath = self.parent.fullpath
-      if parent_fullpath == "/"
+      if parent_fullpath == ROOT_NAME
         parent_fullpath + self.name
       else
         parent_fullpath + "/" + self.name
@@ -161,5 +163,15 @@ class IndexedDirectory < ActiveRecord::Base
     Dir.chdir(File.join(self.device.name,self.fullpath))
   end
 
+  def hierarchy
+    path = []
+    actual_dir = self
+    while actual_dir.name != ROOT_NAME do
+      logger.info "Estamos en #{actual_dir.name}"
+      path.unshift(actual_dir.parent)
+      actual_dir = actual_dir.parent
+    end
+    path
+  end
 
 end
