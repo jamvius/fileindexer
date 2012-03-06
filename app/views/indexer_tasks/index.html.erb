@@ -2,7 +2,8 @@
 
 <h2>Listing indexer_tasks</h2>
 
-<table>
+<table class="table">
+  <thead>
   <tr>
     <th>Name</th>
     <th>Recursive</th>
@@ -11,7 +12,9 @@
     <th>Device</th>
     <th>Actions</th>
   </tr>
+  </thead>
 
+  <tbody>
   <% @indexer_tasks.each do |indexer_task| %>
       <tr>
         <td><%= indexer_task.name %></td>
@@ -28,6 +31,7 @@
         </td>
       </tr>
   <% end %>
+  </tbody>
 </table>
 
 </div>
@@ -35,6 +39,6 @@
 <br />
 
 <div class="actions">
-  <%= link_to 'New Indexer task', new_indexer_task_path %>
+  <%= link_to 'New Indexer task', new_indexer_task_path, :class => 'btn btn-primary btn-large' %>
 </div>
 
