@@ -1,3 +1,9 @@
+<% content_for :menu do %>
+    <div class="actions">
+      <%= link_to 'New Indexer task', new_indexer_task_path, :class => 'btn btn-primary btn-large' %>
+    </div>
+<% end %>
+
 <div class="index">
 
 <h2>Listing indexer_tasks</h2>
@@ -17,7 +23,7 @@
   <tbody>
   <% @indexer_tasks.each do |indexer_task| %>
       <tr>
-        <td><%= indexer_task.name %></td>
+        <td><%= link_to indexer_task.name, indexed_directory_path(indexer_task.indexed_directory_id) %></td>
         <td><%= indexer_task.recursive? %></td>
         <td><%= indexer_task.overwrite? %></td>
         <td><%= indexer_task.status %></td>
@@ -38,7 +44,5 @@
 
 <br />
 
-<div class="actions">
-  <%= link_to 'New Indexer task', new_indexer_task_path, :class => 'btn btn-primary btn-large' %>
-</div>
+
 

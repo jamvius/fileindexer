@@ -1,5 +1,18 @@
-<p id="notice"><%= notice %></p>
+<ul class="nav nav-pills">
+  <li class="active">
+    <%= link_to @indexed_directory.device.name, device_path(@indexed_directory.device.id) %>
+  </li>
+  <% @indexed_directory.hierarchy.each do |directory| %>
+        <li class="active">
+          <%= link_to directory.name, indexed_directory_path(directory) %>
+        </li>
+  <% end %>
+  <li>
+    <%= link_to @indexed_directory.name, indexed_directory_path %>
+  </li>
+</ul>
 
+<% content_for :menu do %>
 <p>
   <strong>Name:</strong>
   <%= @indexed_directory.name %>
@@ -49,27 +62,37 @@
   <b>Deleted:</b>
   <%= @indexed_directory.deleted %>
 </p>
+<% end %>
 
 <p>
   <b>Subdirectories:</b>
 </p>
-<ul>
+<ul class="nav nav-pills nav-stacked">
   <% @indexed_directory.indexed_directories.each do |directory| %>
-      <li><%= link_to directory.name, indexed_directory_path(directory) %>, <%= directory.indexed %></li>
-  <% end %>
+      <li class="active">
+        <%= link_to(directory) do %>
+            <%= directory.name %>
+            <% if directory.indexed? %>
+                <span class="label label-success">Indexed</span>
+            <% end %>
+        <% end %>
+      </li>
+<% end %>
 </ul>
 
 <p>
   <b>Files:</b>
 </p>
 
-<table>
-  <tbody>
+<table class="table">
+  <thead>
   <tr>
     <th>Name</th>
     <th>Size</th>
     <th>Md5</th>
   </tr>
+  </thead>
+  <tbody>
   <% @indexed_directory.indexed_files.each do |file| %>
       <tr>
         <td><%= file.name %></td>

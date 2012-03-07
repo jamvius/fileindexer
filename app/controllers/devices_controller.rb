@@ -13,12 +13,19 @@ class DevicesController < ApplicationController
   # GET /devices/1
   # GET /devices/1.json
   def show
-    @device = Device.find(params[:id])
+    @device = Device.find_by_id(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @device }
+    if @device.nil?
+      @devices = Device.all
+      flash[:alert] = "Your device was not found!"
+      render "index"
+    else
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @device }
+      end
     end
+
   end
 
   # GET /devices/new
