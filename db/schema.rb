@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120216105248) do
+ActiveRecord::Schema.define(:version => 20120308085534) do
 
   create_table "devices", :force => true do |t|
     t.string   "name"
@@ -59,14 +59,20 @@ ActiveRecord::Schema.define(:version => 20120216105248) do
     t.string   "name"
     t.boolean  "recursive",            :default => false
     t.boolean  "overwrite",            :default => false
-    t.integer  "status",               :default => 0
     t.integer  "device_id"
     t.integer  "indexed_directory_id"
+    t.integer  "status_task_id",       :default => 0
     t.datetime "created_at",                              :null => false
     t.datetime "updated_at",                              :null => false
   end
 
   add_index "indexer_tasks", ["device_id"], :name => "index_indexer_tasks_on_device_id"
   add_index "indexer_tasks", ["indexed_directory_id"], :name => "index_indexer_tasks_on_indexed_directory_id"
+
+  create_table "status_tasks", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 end

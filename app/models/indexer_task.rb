@@ -1,6 +1,7 @@
 class IndexerTask < ActiveRecord::Base
   belongs_to :device
   belongs_to :indexed_directory
+  belongs_to :status_task
 
   before_create :add_directory
 
@@ -12,11 +13,11 @@ class IndexerTask < ActiveRecord::Base
   end
 
   def run
-    logger.info("Indexando #{self.name} -> status #{self.status}")
-    if self.status == 0
-      self.update_column(:status, 1)
+    logger.info("Indexando #{self.name} -> status #{self.status_task.name}")
+    if self.status_task == StatusTask.PENDING
+      self.update_column(:status_task_id, StatusTask.RUNNING)
       self.indexed_directory.index(self.recursive,self.overwrite)
-      self.update_column(:status, 2)
+      self.update_column(:status_task_id, StatusTask.FINNISH)
     else
       logger.info("Task ya procesada")
     end
