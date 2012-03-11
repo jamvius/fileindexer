@@ -1,4 +1,8 @@
 Fileindexer::Application.routes.draw do
+  get "home/index"
+
+  resources :status_tasks
+
   resources :indexed_files
 
   resources :indexed_directories
@@ -10,6 +14,8 @@ Fileindexer::Application.routes.draw do
   end
 
   resources :devices
+
+  root :to => 'home#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -26,7 +26,7 @@
         <td><%= link_to indexer_task.name, indexed_directory_path(indexer_task.indexed_directory_id) %></td>
         <td><%= indexer_task.recursive? %></td>
         <td><%= indexer_task.overwrite? %></td>
-        <td><%= indexer_task.status %></td>
+        <td><%= indexer_task.status_task.name %></td>
         <td><%= link_to indexer_task.device.name, device_path(indexer_task.device.id) %></td>
 
         <td class="actions">
