@@ -72,7 +72,7 @@ class IndexedDirectory < ActiveRecord::Base
       # Indexar contenido
       childsdirectories = self.index_content overwrite
 
-      if recursive
+      if recursive and self.recursive
         logger.info "Flag recursive, recorremos los hijos #{childsdirectories}"
         # Indexar subdirectorios
         childsdirectories.each do |child_directory|
@@ -80,14 +80,14 @@ class IndexedDirectory < ActiveRecord::Base
         end
       end
 
-      self.update_stats
+      self.update_stats(true)
     end
 
     logger.info "Indexando #{self.device_id}: #{self.fullpath}, #{recursive} finalizado"
 
   end
 
-  def update_stats(recursive = false)
+  def update_stats(indexed = false, recursive = false)
     if recursive
       self.indexed_directories.each {|directory| directory.update_stats(recursive)}
     end
@@ -96,7 +96,7 @@ class IndexedDirectory < ActiveRecord::Base
     new_size = self.indexed_directories.inject(0) { |total, directory| total + directory.size }
     new_size = self.indexed_files.inject(new_size) { |total, file| total + file.size }
 
-    childs_indexed = self.indexed_directories.all? { |directory| directory.indexed? }
+    childs_indexed = self.indexed_directories.all? { |directory| directory.recursive_indexed? }
 
     num_files = self.indexed_directories.inject(self.indexed_files.size) { |total, directory|
       total + directory.recursive_numfiles
@@ -105,8 +105,12 @@ class IndexedDirectory < ActiveRecord::Base
       total + directory.recursive_numdirectories
     }
 
+    if indexed
+      self.indexed = indexed
+    end
+
     logger.info "Actualizando stats size: #{new_size}, #{childs_indexed} + #{self.indexed?}"
-    self.update_attributes(:size => new_size, :indexed => true, :recursive_indexed => childs_indexed, :recursive_numfiles => num_files, :recursive_numdirectories => num_directories)
+    self.update_attributes(:size => new_size, :recursive_indexed => childs_indexed, :recursive_numfiles => num_files, :recursive_numdirectories => num_directories)
 
   end
 

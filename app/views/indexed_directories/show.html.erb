@@ -62,46 +62,71 @@
   <b>Deleted:</b>
   <%= @indexed_directory.deleted %>
 </p>
-<% end %>
 
-<p>
-  <b>Subdirectories:</b>
-</p>
-<ul class="nav nav-pills nav-stacked">
-  <% @indexed_directory.indexed_directories.each do |directory| %>
-      <li class="active">
-        <%= link_to(directory) do %>
-            <%= directory.name %>
-            <% if directory.indexed? %>
-                <span class="label label-success">Indexed</span>
-            <% end %>
-        <% end %>
-      </li>
-<% end %>
-</ul>
+<%= link_to 'Edit', edit_indexed_directory_path(@indexed_directory), :class => 'btn btn-primary btn-large' %>
+<%= link_to 'Indexing', indexing_indexed_directory_path(@indexed_directory), :class => 'btn btn-primary btn-large' %>
 
-<p>
-  <b>Files:</b>
-</p>
+<div id="options_dir" class="accordion">
+	<div class="accordion-group">
+	  <div class="accordion-heading">
+		<a href="#collapseOne" data-parent="#options_dir" data-toggle="collapse" class="accordion-toggle">
+		  Options
+		</a>
+	  </div>
+	  <div class="accordion-body collapse" id="collapseOne" style="height: 0px;">
+		<div class="accordion-inner">
+			Recursive
+			Overwrite
+		</div>
+	  </div>
+	</div>
+</div>
+<% end %>
 
 <table class="table">
   <thead>
   <tr>
     <th>Name</th>
     <th>Size</th>
-    <th>Md5</th>
+    <th>Actions</th>
   </tr>
   </thead>
   <tbody>
+  <% @indexed_directory.indexed_directories.each do |directory| %>
+      <tr>
+        <td>
+          <i class="icon-folder-close"></i>
+          <%= directory.name %>
+          <% if directory.indexed? and !directory.recursive_indexed? %>
+              <span class="label label-success">Indexed</span>
+          <% end %>
+          <% if directory.recursive_indexed? %>
+              <span class="label label-success">Full-Indexed</span>
+          <% end %>
+        </td>
+        <td><%= hsize(directory.size) %></td>
+        <td>
+          <%= link_to(directory) do %>
+              <i class="icon-chevron-right"></i>
+          <% end %>
+          <%= link_to indexing_indexed_directory_path(directory) do %>
+              <i class="icon-play"></i>
+          <% end %>
+          <%= link_to update_stats_indexed_directory_path(directory) do %>
+              <i class="icon-refresh"></i>
+          <% end %>
+        </td>
+      </tr>
+  <% end %>
   <% @indexed_directory.indexed_files.each do |file| %>
       <tr>
         <td><%= file.name %></td>
         <td><%= hsize(file.size) %></td>
-        <td><%= file.md5 %></td>
+        <td></td>
       </tr>
   <% end %>
   </tbody>
 </table>
 
-<%= link_to 'Edit', edit_indexed_directory_path(@indexed_directory) %> |
-<%= link_to 'Back', indexed_directories_path %>
+
+
