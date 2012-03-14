@@ -1,4 +1,7 @@
+require "modules/directory_helper"
+
 class IndexedDirectory < ActiveRecord::Base
+  include DirectoryHelper
 
   belongs_to :parent, :class_name => "IndexedDirectory"
   belongs_to :device
@@ -161,10 +164,6 @@ class IndexedDirectory < ActiveRecord::Base
         indexed_file.update_column(:deleted, true)
       end
     }
-  end
-
-  def go_to
-    Dir.chdir(File.join(self.device.name,self.fullpath))
   end
 
   def hierarchy
