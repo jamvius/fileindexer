@@ -108,9 +108,7 @@ class IndexedDirectory < ActiveRecord::Base
       total + directory.recursive_numdirectories
     }
 
-    if indexed
-      self.indexed = indexed
-    end
+    self.indexed = indexed if indexed
 
     logger.info "Actualizando stats size: #{new_size}, #{childs_indexed} + #{self.indexed?}"
     self.update_attributes(:size => new_size, :recursive_indexed => childs_indexed, :recursive_numfiles => num_files, :recursive_numdirectories => num_directories)
