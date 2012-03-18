@@ -1,11 +1,18 @@
 Fileindexer::Application.routes.draw do
+  get "searcher/index"
+
   get "home/index"
 
   resources :status_tasks
 
   resources :indexed_files
 
-  resources :indexed_directories
+  resources :indexed_directories do
+    member do
+      get 'indexing'
+      get 'update_stats'
+    end
+  end
 
   resources :indexer_tasks do
     member do

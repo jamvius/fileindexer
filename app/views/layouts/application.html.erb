@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>File Indexer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -45,6 +45,9 @@
                 <%= link_to 'Devices', devices_path %>
               </li>
             </ul>
+            <form action="/searcher/index" class="navbar-search pull-left">
+              <input type="text" placeholder="Search" class="search-query span2">
+            </form>
           </div><!--/.nav-collapse -->
         </div>
       </div>

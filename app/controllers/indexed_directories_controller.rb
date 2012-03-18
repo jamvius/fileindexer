@@ -80,4 +80,17 @@ class IndexedDirectoriesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def indexing
+    @indexed_directory = IndexedDirectory.find(params[:id])
+    @indexed_directory.index
+    redirect_to @indexed_directory
+  end
+
+  def update_stats
+    @indexed_directory = IndexedDirectory.find(params[:id])
+    @indexed_directory.update_stats
+    redirect_to @indexed_directory.parent
+  end
+
 end

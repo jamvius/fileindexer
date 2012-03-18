@@ -9,7 +9,7 @@ class CreateIndexedDirectories < ActiveRecord::Migration
       t.boolean :symboliclink, :default => false
       t.boolean :indexable, :default => true
       t.boolean :sortable, :default => false
-      t.boolean :recursive, :default => false
+      t.boolean :recursive, :default => true
       t.boolean :indexed, :default => false
       t.boolean :recursive_indexed, :default => false
       t.integer :recursive_numfiles, :default => 0
