@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(:version => 20120308085534) do
   create_table "devices", :force => true do |t|
     t.string   "name"
     t.text     "description"
+    t.string   "uuid"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -29,7 +30,7 @@ ActiveRecord::Schema.define(:version => 20120308085534) do
     t.boolean  "symboliclink",             :default => false
     t.boolean  "indexable",                :default => true
     t.boolean  "sortable",                 :default => false
-    t.boolean  "recursive",                :default => false
+    t.boolean  "recursive",                :default => true
     t.boolean  "indexed",                  :default => false
     t.boolean  "recursive_indexed",        :default => false
     t.integer  "recursive_numfiles",       :default => 0
