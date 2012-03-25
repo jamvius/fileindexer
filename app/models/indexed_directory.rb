@@ -62,7 +62,7 @@ class IndexedDirectory < ActiveRecord::Base
     end
   end
 
-  def index(recursive = false, overwrite = false)
+  def index(recursive = false, overwrite = false, recursive_level = 0)
     self.go_to
 
     logger.info "Indexando #{self.device_id}: #{self.fullpath}, #{recursive}, #{overwrite}"
@@ -75,11 +75,11 @@ class IndexedDirectory < ActiveRecord::Base
       # Indexar contenido
       childsdirectories = self.index_content overwrite
 
-      if recursive and self.recursive
+      if (recursive or recursive_level > 0) and self.recursive
         logger.info "Flag recursive, recorremos los hijos #{childsdirectories}"
         # Indexar subdirectorios
         childsdirectories.each do |child_directory|
-          child_directory.index recursive, overwrite
+          child_directory.index recursive, overwrite, recursive_level - 1
         end
       end
 
