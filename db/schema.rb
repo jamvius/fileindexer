@@ -24,7 +24,6 @@ ActiveRecord::Schema.define(:version => 20120308085534) do
   create_table "indexed_directories", :force => true do |t|
     t.string   "name"
     t.string   "path"
-    t.integer  "size",                     :default => 0
     t.integer  "parent_id"
     t.integer  "device_id"
     t.boolean  "symboliclink",             :default => false
@@ -32,10 +31,16 @@ ActiveRecord::Schema.define(:version => 20120308085534) do
     t.boolean  "sortable",                 :default => false
     t.boolean  "recursive",                :default => true
     t.boolean  "indexed",                  :default => false
+    t.boolean  "analyzed",                 :default => false
+    t.boolean  "deleted",                  :default => false
+    t.integer  "numfiles",                 :default => 0
+    t.integer  "numdirectories",           :default => 0
+    t.integer  "size",                     :default => 0
+    t.integer  "recursive_size",           :default => 0
     t.boolean  "recursive_indexed",        :default => false
+    t.boolean  "recursive_analyzed",       :default => false
     t.integer  "recursive_numfiles",       :default => 0
     t.integer  "recursive_numdirectories", :default => 0
-    t.boolean  "deleted",                  :default => false
     t.datetime "created_at",                                  :null => false
     t.datetime "updated_at",                                  :null => false
   end
@@ -71,9 +76,7 @@ ActiveRecord::Schema.define(:version => 20120308085534) do
   add_index "indexer_tasks", ["indexed_directory_id"], :name => "index_indexer_tasks_on_indexed_directory_id"
 
   create_table "status_tasks", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string "name"
   end
 
 end

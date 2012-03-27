@@ -175,4 +175,23 @@ class IndexedDirectory < ActiveRecord::Base
     path
   end
 
+  def analyze(recursive = false, overwrite = false)
+    self.go_to
+    logger.info("Analizando directorio self.analyzed(#{self.analyzed?}), overwrite(#{overwrite}), recursive(#{recursive})")
+    if !self.analyzed or overwrite
+        self.numfiles = self.files.size
+        self.numdirectories = self.directories.size
+        self.analyzed = true
+    end
+
+    if self.recursive and recursive
+      self.indexed_directories.analyze(recursive,overwrite)
+      self.recursive_numdirectories = self.indexed_directories.inject(0) { |total, directory| total + directory.recursive_numdirectories + directory.numdirectories }
+      self.recursive_files = self.indexed_files.inject(0) { |total, directory| total + directory.recursive_numfiles + directory.numfiles }
+    end
+
+    self.save
+
+  end
+
 end
