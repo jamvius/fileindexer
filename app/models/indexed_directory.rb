@@ -116,30 +116,38 @@ class IndexedDirectory < ActiveRecord::Base
   end
 
   def index_content(overwrite = false)
-    childsdirectories = []
-    files_directory = Dir.glob("*")
-    logger.info "archivos encontrado #{files_directory}"
-    files_directory.each do |file|
-      logger.info "Analizando content #{file}"
-      if FileTest.directory?(file)
-        childsdirectories << IndexedDirectory.find_or_create_directory(file, self.id, self.device_id)
-      else
-        size = FileTest.size(file)
-        # Comento el md5 por temas de rendimiento
-        #if size > 1024*1024*10
-        #  md5 = "aaaaafffff"
-        #else
-        #  md5 = Digest::MD5.hexdigest(File.binread(file))
-        #end
+    self.go_to
+    if self.indexed?
 
-        indexedfile = IndexedFile.where(:name => file, :parent_id => self.id).first_or_create(:size => size)
-        if !indexedfile.new_record? && overwrite
-          logger.info "Actualizando info de #{file}"
-          indexedfile.update_attributes(:size => size)
-        end
-      end
+    else
+      add_all_adirectories
+      add_all_files
     end
-    childsdirectories
+
+    #childsdirectories = []
+    #files_directory = Dir.glob("*")
+    #logger.info "archivos encontrado #{files_directory}"
+    #files_directory.each do |file|
+    #  logger.info "Analizando content #{file}"
+    #  if FileTest.directory?(file)
+    #    childsdirectories << IndexedDirectory.find_or_create_directory(file, self.id, self.device_id)
+    #  else
+    #    size = FileTest.size(file)
+    #    # Comento el md5 por temas de rendimiento
+    #    #if size > 1024*1024*10
+    #    #  md5 = "aaaaafffff"
+    #    #else
+    #    #  md5 = Digest::MD5.hexdigest(File.binread(file))
+    #    #end
+    #
+    #    indexedfile = IndexedFile.where(:name => file, :parent_id => self.id).first_or_create(:size => size)
+    #    if !indexedfile.new_record? && overwrite
+    #      logger.info "Actualizando info de #{file}"
+    #      indexedfile.update_attributes(:size => size)
+    #    end
+    #  end
+    #end
+    #childsdirectories
   end
 
   # Marca como deleted los elementos que ya no estan en disco
@@ -193,5 +201,22 @@ class IndexedDirectory < ActiveRecord::Base
     self.save
 
   end
+
+  def add_all_adirectories
+    t = Time.now
+
+    values = self.directories.collect { |directory| "('#{directory}',#{self.id},#{self.device.id},'#{t}','#{t}')" }
+    "INSERT INTO INDEXED_DIRECTORIES (NAME, PARENT_ID, DEVICE_ID, CREATED_AT, UPDATED_AT) VALUES #{values.join(",")}"
+    self.connection.execute massive_query
+  end
+
+  def add_all_files
+    t = Time.now
+
+    values = self.files.collect { |file| "('#{file}',#{File.size(file)},#{self.id},'#{t}','#{t}')" }
+    massive_query = "INSERT INTO INDEXED_FILES (NAME, SIZE, PARENT_ID, CREATED_AT, UPDATED_AT) VALUES #{values.join(",")}"
+    self.connection.execute massive_query
+  end
+
 
 end
