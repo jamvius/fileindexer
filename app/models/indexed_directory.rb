@@ -73,13 +73,14 @@ class IndexedDirectory < ActiveRecord::Base
           self.refresh
       end
       # Indexar contenido
-      childsdirectories = self.index_content overwrite
+      self.index_content overwrite
+      self.reload
 
       if (recursive or recursive_level > 0) and self.recursive
-        logger.info "Flag recursive, recorremos los hijos #{childsdirectories}"
+        logger.info "Flag recursive, recorremos los hijos #{directories}"
         # Indexar subdirectorios
-        childsdirectories.each do |child_directory|
-          child_directory.index recursive, overwrite, recursive_level - 1
+        self.indexed_directories.each do |child_directory|
+          child_directory.index(recursive, overwrite, recursive_level - 1)
         end
       end
 
@@ -101,17 +102,13 @@ class IndexedDirectory < ActiveRecord::Base
 
     childs_indexed = self.indexed_directories.all? { |directory| directory.recursive_indexed? }
 
-    num_files = self.indexed_directories.inject(self.indexed_files.size) { |total, directory|
-      total + directory.recursive_numfiles
-    }
-    num_directories = self.indexed_directories.inject(self.indexed_directories.size) { |total, directory|
-      total + directory.recursive_numdirectories
-    }
+    recursive_num_files = self.indexed_directories.inject(0) { |total, directory| total + directory.recursive_numfiles }
+    recursive_num_directories = self.indexed_directories.inject(0) { |total, directory| total + directory.recursive_numdirectories }
 
     self.indexed = indexed if indexed
 
     logger.info "Actualizando stats size: #{new_size}, #{childs_indexed} + #{self.indexed?}"
-    self.update_attributes(:size => new_size, :recursive_indexed => childs_indexed, :recursive_numfiles => num_files, :recursive_numdirectories => num_directories)
+    self.update_attributes(:size => new_size, :recursive_indexed => childs_indexed, :recursive_numfiles => recursive_num_files, :recursive_numdirectories => recursive_num_directories)
 
   end
 
@@ -217,8 +214,9 @@ class IndexedDirectory < ActiveRecord::Base
 
     if self.files.size > 0
       t = Time.now
-      values = self.files.collect { |file| "('#{file}',#{File.size(file)},#{self.id},'#{t}','#{t}')" }
+      values = self.files.collect { |file| "(\"#{file}\",#{File.size(file)},#{self.id},\"#{t}\",\"#{t}\")" }
       massive_query = "INSERT INTO indexed_files (name, size, parent_id, created_at, updated_at) VALUES #{values.join(',')}"
+
       self.connection.execute massive_query
     end
   end
