@@ -203,19 +203,24 @@ class IndexedDirectory < ActiveRecord::Base
   end
 
   def add_all_adirectories
-    t = Time.now
 
-    values = self.directories.collect { |directory| "('#{directory}',#{self.id},#{self.device.id},'#{t}','#{t}')" }
-    "INSERT INTO INDEXED_DIRECTORIES (NAME, PARENT_ID, DEVICE_ID, CREATED_AT, UPDATED_AT) VALUES #{values.join(",")}"
-    self.connection.execute massive_query
+    if self.directories.size > 0
+      t = Time.now
+      values = self.directories.collect { |directory| "('#{directory}',#{self.id},#{self.device.id},'#{t}','#{t}')" }
+      massive_query = "INSERT INTO indexed_directories (name, parent_id, device_id, created_at, updated_at) VALUES #{values.join(',')}"
+      self.connection.execute massive_query
+    end
+
   end
 
   def add_all_files
-    t = Time.now
 
-    values = self.files.collect { |file| "('#{file}',#{File.size(file)},#{self.id},'#{t}','#{t}')" }
-    massive_query = "INSERT INTO INDEXED_FILES (NAME, SIZE, PARENT_ID, CREATED_AT, UPDATED_AT) VALUES #{values.join(",")}"
-    self.connection.execute massive_query
+    if self.files.size > 0
+      t = Time.now
+      values = self.files.collect { |file| "('#{file}',#{File.size(file)},#{self.id},'#{t}','#{t}')" }
+      massive_query = "INSERT INTO indexed_files (name, size, parent_id, created_at, updated_at) VALUES #{values.join(',')}"
+      self.connection.execute massive_query
+    end
   end
 
 

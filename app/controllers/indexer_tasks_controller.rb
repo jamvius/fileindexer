@@ -84,6 +84,7 @@ class IndexerTasksController < ApplicationController
   def analyze
     @indexer_task = IndexerTask.find(params[:id])
     @indexer_task.run
+    redirect_to @indexer_task, notice: 'Task finnish.'
   end
 
 end
