@@ -16,7 +16,7 @@ class Device < ActiveRecord::Base
   def create_filekey
     f = File.open(self.name + IndexedDirectory::ROOT_NAME + FILEKEY_NAME, "w")
     uuid = SecureRandom.uuid
-    f.write(self.uuid)
+    f.write(uuid)
     f.close
     self.uuid = uuid
   rescue Exception
