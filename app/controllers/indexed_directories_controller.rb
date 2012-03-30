@@ -14,6 +14,9 @@ class IndexedDirectoriesController < ApplicationController
   # GET /indexed_directories/1.json
   def show
     @indexed_directory = IndexedDirectory.find(params[:id])
+    @indexed_directory.go_to
+    @new_directories = @indexed_directory.find_new_directories
+    @new_files = @indexed_directory.find_new_files
 
     respond_to do |format|
       format.html # show.html.erb

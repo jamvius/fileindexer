@@ -100,7 +100,7 @@ class IndexedDirectory < ActiveRecord::Base
     new_size = self.indexed_directories.inject(0) { |total, directory| total + directory.size }
     new_size = self.indexed_files.inject(new_size) { |total, file| total + file.size }
 
-    childs_indexed = self.indexed_directories.all? { |directory| directory.recursive_indexed? }
+    childs_indexed = (self.indexed_directories.all? { |directory| directory.recursive_indexed? } and self.indexed)
 
     recursive_num_files = self.indexed_directories.inject(0) { |total, directory| total + directory.recursive_numfiles }
     recursive_num_directories = self.indexed_directories.inject(0) { |total, directory| total + directory.recursive_numdirectories }

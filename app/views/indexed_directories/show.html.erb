@@ -16,17 +16,13 @@
 <p>
   <strong>Name:</strong>
   <%= @indexed_directory.name %>
-  <b>Size:</b>
+</p>
+
+<p>
+  <strong>Size:</strong>
   <%= hsize(@indexed_directory.size) %>
 </p>
 
-<% if @indexed_directory.parent_id != 0 %>
-    <p>
-      <b>Directory Parent:</b>
-      <%= link_to @indexed_directory.fullpath, indexed_directory_path(@indexed_directory.parent.id) %>
-      (<%= @indexed_directory.parent.id %>)
-    </p>
-<% end %>
 
 <p>
   <b>Device:</b>
@@ -59,6 +55,12 @@
 </p>
 
 <p>
+  <b>Full Indexed:</b>
+  <%= @indexed_directory.recursive_indexed %>
+</p>
+
+
+<p>
   <b>Deleted:</b>
   <%= @indexed_directory.deleted %>
 </p>
@@ -83,7 +85,7 @@
 </div>
 <% end %>
 
-<table class="table">
+<table class="table table-condensed">
   <thead>
   <tr>
     <th>Name</th>
@@ -125,6 +127,31 @@
         <td></td>
       </tr>
   <% end %>
+
+  <% @new_directories.each do |directory| %>
+      <tr>
+        <td>
+          <i class="icon-folder-close"></i>
+          <%= directory %>
+          <span class="label label-warning">new</span>
+        </td>
+        <td></td>
+        <td></td>
+      </tr>
+  <% end %>
+
+  <% @new_files.each do |file| %>
+      <tr>
+        <td>
+          <%= file %>
+          <span class="label label-warning">new</span>
+        </td>
+        <td><%= hsize(File.size(file)) %></td>
+        <td></td>
+      </tr>
+  <% end %>
+
+
   </tbody>
 </table>
 
