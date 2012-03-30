@@ -24,6 +24,7 @@
     <td><%= device.description %></td>
     <td><%= link_to 'Show', device %></td>
     <td><%= link_to 'Edit', edit_device_path(device) %></td>
+    <td><%= link_to 'Go root', go_root_device_path(device) %></td>
     <td><%= link_to 'Destroy', device, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
