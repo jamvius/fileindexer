@@ -6,11 +6,17 @@ class Device < ActiveRecord::Base
   UUID_ERROR = :device_not_writable
 
   before_create :create_filekey
+  after_create :create_root
 
   # @return [IndexedDirectory]
-  def find_root
+  def search_root
     IndexedDirectory.find_by_name_and_device_id(IndexedDirectory::ROOT_NAME, self.id)
-    #self.indexed_directories.select { |directory| directory.name == "/" }
+  end
+
+  def create_root
+    unless search_root
+      IndexedDirectory.create(:name => IndexedDirectory::ROOT_NAME, :parent_id => 0, :device_id => self.id)
+    end
   end
 
   def create_filekey

@@ -20,7 +20,11 @@ Fileindexer::Application.routes.draw do
     end
   end
 
-  resources :devices
+  resources :devices do
+    member do
+      get 'go_root'
+    end
+  end
 
   root :to => 'home#index'
 

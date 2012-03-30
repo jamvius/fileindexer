@@ -87,4 +87,11 @@ class DevicesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def go_root
+    @device = Device.find(params[:id])
+    @directory = @device.find_root
+    redirect_to @directory
+  end
+
 end
