@@ -90,6 +90,13 @@ class IndexedDirectoriesController < ApplicationController
     redirect_to @indexed_directory
   end
 
+  def analyze
+    @indexed_directory = IndexedDirectory.find(params[:id])
+    @indexed_directory.analyze
+    redirect_to @indexed_directory
+  end
+
+
   def update_stats
     @indexed_directory = IndexedDirectory.find(params[:id])
     @indexed_directory.update_stats

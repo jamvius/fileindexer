@@ -10,6 +10,7 @@ Fileindexer::Application.routes.draw do
   resources :indexed_directories do
     member do
       get 'indexing'
+      get 'analyze'
       get 'update_stats'
     end
   end

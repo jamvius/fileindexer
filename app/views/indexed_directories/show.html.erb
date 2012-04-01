@@ -3,9 +3,9 @@
     <%= link_to @indexed_directory.device.name, device_path(@indexed_directory.device.id) %>
   </li>
   <% @indexed_directory.hierarchy.each do |directory| %>
-        <li class="active">
-          <%= link_to directory.name, indexed_directory_path(directory) %>
-        </li>
+      <li class="active">
+        <%= link_to directory.name, indexed_directory_path(directory) %>
+      </li>
   <% end %>
   <li>
     <%= link_to @indexed_directory.name, indexed_directory_path %>
@@ -13,76 +13,102 @@
 </ul>
 
 <% content_for :menu do %>
-<p>
-  <strong>Name:</strong>
-  <%= @indexed_directory.name %>
-</p>
+    <p>
+      <strong>Name:</strong>
+      <%= @indexed_directory.name %>
+    </p>
 
-<p>
-  <strong>Size:</strong>
-  <%= hsize(@indexed_directory.size) %>
-</p>
-
-
-<p>
-  <b>Device:</b>
-  <%= @indexed_directory.device.name %>
-</p>
-
-<p>
-  <b>Symboliclink:</b>
-  <%= @indexed_directory.symboliclink %>
-</p>
-
-<p>
-  <b>Indexable:</b>
-  <%= @indexed_directory.indexable %>
-</p>
-
-<p>
-  <b>Sortable:</b>
-  <%= @indexed_directory.sortable %>
-</p>
-
-<p>
-  <b>Recursive:</b>
-  <%= @indexed_directory.recursive %>
-</p>
-
-<p>
-  <b>Indexed:</b>
-  <%= @indexed_directory.indexed %>
-</p>
-
-<p>
-  <b>Full Indexed:</b>
-  <%= @indexed_directory.recursive_indexed %>
-</p>
+    <p>
+      <strong>Size:</strong>
+      <%= hsize(@indexed_directory.size) %>
+    </p>
 
 
-<p>
-  <b>Deleted:</b>
-  <%= @indexed_directory.deleted %>
-</p>
+    <p>
+      <b>Device:</b>
+      <%= @indexed_directory.device.name %>
+    </p>
 
-<%= link_to 'Edit', edit_indexed_directory_path(@indexed_directory), :class => 'btn btn-primary btn-large' %>
-<%= link_to 'Indexing', indexing_indexed_directory_path(@indexed_directory), :class => 'btn btn-primary btn-large' %>
+    <p>
+      <b>Symboliclink:</b>
+      <%= @indexed_directory.symboliclink %>
+    </p>
 
-<div id="options_dir" class="accordion">
-	<div class="accordion-group">
-	  <div class="accordion-heading">
-		<a href="#collapseOne" data-parent="#options_dir" data-toggle="collapse" class="accordion-toggle">
-		  Options
-		</a>
-	  </div>
-	  <div class="accordion-body collapse" id="collapseOne" style="height: 0px;">
-		<div class="accordion-inner">
-			Recursive
-			Overwrite
-		</div>
-	  </div>
-	</div>
-</div>
+    <p>
+      <b>Indexable:</b>
+      <%= @indexed_directory.indexable %>
+    </p>
+
+    <p>
+      <b>Sortable:</b>
+      <%= @indexed_directory.sortable %>
+    </p>
+
+    <p>
+      <b>Recursive:</b>
+      <%= @indexed_directory.recursive %>
+    </p>
+
+    <p>
+      <b>Indexed:</b>
+      <%= @indexed_directory.indexed %>
+    </p>
+    <p>
+      <b>Analyzed:</b>
+      <%= @indexed_directory.analyzed %>
+    </p>
+    <p>
+      <b>Num. Files:</b>
+      <%= @indexed_directory.numfiles %>
+    </p>
+    <p>
+      <b>Num. Directories:</b>
+      <%= @indexed_directory.numdirectories %>
+    </p>
+
+
+
+    <p>
+      <b>Recursive Indexed:</b>
+      <%= @indexed_directory.recursive_indexed %>
+    </p>
+    <p>
+      <b>Recursive Analyzed:</b>
+      <%= @indexed_directory.recursive_analyzed %>
+    </p>
+    <p>
+      <b>Recursive Num. Files:</b>
+      <%= @indexed_directory.recursive_numfiles %>
+    </p>
+    <p>
+      <b>Recursive Num. Directories:</b>
+      <%= @indexed_directory.recursive_numdirectories %>
+    </p>
+
+    <p>
+      <b>Deleted:</b>
+      <%= @indexed_directory.deleted %>
+    </p>
+
+    <%= link_to 'Edit', edit_indexed_directory_path(@indexed_directory), :class => 'btn btn-primary btn-large' %>
+    <%= link_to 'Indexing', indexing_indexed_directory_path(@indexed_directory), :class => 'btn btn-primary btn-large' %>
+    <%= link_to 'Analyze', analyze_indexed_directory_path(@indexed_directory), :class => 'btn btn-primary btn-large' %>
+
+    <div id="options_dir" class="accordion">
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a href="#collapseOne" data-parent="#options_dir" data-toggle="collapse" class="accordion-toggle">
+            Options
+          </a>
+        </div>
+        <div class="accordion-body collapse" id="collapseOne" style="height: 0px;">
+          <div class="accordion-inner">
+            Recursive
+            Overwrite
+          </div>
+        </div>
+      </div>
+    </div>
 <% end %>
 
 <table class="table table-condensed">

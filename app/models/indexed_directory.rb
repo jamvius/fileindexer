@@ -1,7 +1,9 @@
 require "modules/directory_helper"
+require "modules/analyzer_directory"
 
 class IndexedDirectory < ActiveRecord::Base
   include DirectoryHelper
+  include AnalyzerDirectory
 
   belongs_to :parent, :class_name => "IndexedDirectory"
   belongs_to :device
@@ -180,25 +182,6 @@ class IndexedDirectory < ActiveRecord::Base
     path
   end
 
-  def analyze(recursive = false, overwrite = false)
-    self.go_to
-    logger.info("Analizando directorio self.analyzed(#{self.analyzed?}), overwrite(#{overwrite}), recursive(#{recursive})")
-    if !self.analyzed or overwrite
-        self.numfiles = self.files.size
-        self.numdirectories = self.directories.size
-        self.analyzed = true
-    end
-
-    if self.recursive and recursive
-      self.indexed_directories.analyze(recursive,overwrite)
-      self.recursive_numdirectories = self.indexed_directories.inject(0) { |total, directory| total + directory.recursive_numdirectories + directory.numdirectories }
-      self.recursive_files = self.indexed_files.inject(0) { |total, directory| total + directory.recursive_numfiles + directory.numfiles }
-    end
-
-    self.save
-
-  end
-
   def add_all_adirectories
 
     if self.directories.size > 0
@@ -209,6 +192,20 @@ class IndexedDirectory < ActiveRecord::Base
     end
 
   end
+
+  def add_new_directories
+
+    list_directories = find_new_directories
+    if list_directories.size > 0
+      t = Time.now
+      values = list_directories.collect { |directory| "('#{directory}',#{self.id},#{self.device.id},'#{t}','#{t}')" }
+      massive_query = "INSERT INTO indexed_directories (name, parent_id, device_id, created_at, updated_at) VALUES #{values.join(',')}"
+      self.connection.execute massive_query
+    end
+    self.reload
+
+  end
+
 
   def add_all_files
 
