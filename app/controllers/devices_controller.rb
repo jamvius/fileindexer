@@ -90,7 +90,7 @@ class DevicesController < ApplicationController
 
   def go_root
     @device = Device.find(params[:id])
-    @directory = @device.find_root
+    @directory = @device.search_root
     redirect_to @directory
   end
 
