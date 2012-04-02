@@ -1,0 +1,24 @@
+<tr xmlns="http://www.w3.org/1999/html">
+  <td>
+    <span class="icon-folder-close"></span>
+    <%= directory.name %>
+    <% if directory.indexed? and !directory.recursive_indexed? %>
+        <span class="label label-success">Indexed</span>
+    <% end %>
+    <% if directory.recursive_indexed? %>
+        <span class="label label-success">Full-Indexed</span>
+    <% end %>
+  </td>
+  <td><%= hsize(directory.size) %></td>
+  <td>
+    <%= link_to(directory) do %>
+        <span class="icon-chevron-right"></span>
+    <% end %>
+    <%= link_to indexing_indexed_directory_path(directory) do %>
+        <span class="icon-play"></span>
+    <% end %>
+    <%= link_to update_stats_indexed_directory_path(directory) do %>
+        <span class="icon-refresh"></span>
+    <% end %>
+  </td>
+</tr>

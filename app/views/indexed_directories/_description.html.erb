@@ -1,0 +1,78 @@
+<p>
+  <strong>Name:</strong>
+  <%= @indexed_directory.name %>
+</p>
+
+<p>
+  <strong>Size:</strong>
+  <%= hsize(@indexed_directory.size) %>
+</p>
+
+
+<p>
+  <strong>Device:</strong>
+  <%= @indexed_directory.device.name %>
+</p>
+
+<!--
+
+<p>
+  <strong>Symboliclink:</strong>
+  <%= @indexed_directory.symboliclink %>
+</p>
+
+-->
+
+<p>
+  <strong>Indexable:</strong>
+  <%= @indexed_directory.indexable %>
+</p>
+
+<p>
+  <strong>Sortable:</strong>
+  <%= @indexed_directory.sortable %>
+</p>
+
+<p>
+  <strong>Recursive:</strong>
+  <%= @indexed_directory.recursive %>
+</p>
+
+<p>
+  <strong>Indexed:</strong>
+  <%= @indexed_directory.indexed %>
+</p>
+<p>
+  <strong>Analyzed:</strong>
+  <%= @indexed_directory.analyzed %>
+</p>
+<p>
+  <strong>Num. Files:</strong>
+  <%= @indexed_directory.numfiles %>
+</p>
+<p>
+  <strong>Num. Directories:</strong>
+  <%= @indexed_directory.numdirectories %>
+</p>
+
+<p>
+  <strong>Recursive Indexed:</strong>
+  <%= @indexed_directory.recursive_indexed %>
+</p>
+<p>
+  <strong>Recursive Analyzed:</strong>
+  <%= @indexed_directory.recursive_analyzed %>
+</p>
+<p>
+  <strong>Recursive Num. Files:</strong>
+  <%= @indexed_directory.recursive_numfiles %>
+</p>
+<p>
+  <strong>Recursive Num. Directories:</strong>
+  <%= @indexed_directory.recursive_numdirectories %>
+</p>
+
+<p>
+  <strong>Deleted:</strong>
+  <%= @indexed_directory.deleted %>
+</p>
