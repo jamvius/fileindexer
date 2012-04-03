@@ -1,6 +1,6 @@
 <tr xmlns="http://www.w3.org/1999/html">
   <td>
-    <span class="icon-folder-close"></span>
+    <span class="icon-folder-close icon-white"></span>
     <%= directory.name %>
     <% if directory.indexed? and !directory.recursive_indexed? %>
         <span class="label label-success">Indexed</span>
@@ -12,13 +12,13 @@
   <td><%= hsize(directory.size) %></td>
   <td>
     <%= link_to(directory) do %>
-        <span class="icon-chevron-right"></span>
+        <span class="icon-chevron-right icon-white"></span>
     <% end %>
     <%= link_to indexing_indexed_directory_path(directory) do %>
-        <span class="icon-play"></span>
+        <span class="icon-play icon-white"></span>
     <% end %>
     <%= link_to update_stats_indexed_directory_path(directory) do %>
-        <span class="icon-refresh"></span>
+        <span class="icon-refresh icon-white"></span>
     <% end %>
   </td>
 </tr>
