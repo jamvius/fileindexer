@@ -13,3 +13,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+
+$('a[rel=tooltip]').tooltip({animation:false,placement:'right'});

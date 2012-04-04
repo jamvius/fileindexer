@@ -102,8 +102,8 @@ class IndexedDirectoriesController < ApplicationController
     indexed_directory.go_to
     indexed_directory.analyze_content
     indexed_directory.analyze_status
-    indexed_directory.index_content
     indexed_directory.index_status
+    indexed_directory.save
 
     redirect_to indexed_directory.parent
   end

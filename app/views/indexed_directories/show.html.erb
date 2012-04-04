@@ -1,16 +1,16 @@
-<ul class="nav nav-pills">
-  <li class="active">
-    <%= link_to @indexed_directory.device.name, device_path(@indexed_directory.device.id) %>
-  </li>
-  <% @indexed_directory.hierarchy.each do |directory| %>
-      <li class="active">
-        <%= link_to directory.name, indexed_directory_path(directory) %>
-      </li>
-  <% end %>
-  <li>
-    <%= link_to @indexed_directory.name, indexed_directory_path %>
-  </li>
-</ul>
+<div class="well">
+  <h2><%= @indexed_directory.name %></h2>
+  <ul class="nav nav-pills">
+    <li class="active">
+      <%= link_to @indexed_directory.device.name, device_path(@indexed_directory.device.id) %>
+    </li>
+    <% @indexed_directory.hierarchy.each do |directory| %>
+        <li class="active">
+          <%= link_to directory.name, indexed_directory_path(directory) %>
+        </li>
+    <% end %>
+  </ul>
+</div>
 
 <% content_for :menu do %>
 

@@ -8,9 +8,13 @@ module ApplicationHelper
   def hsize(size)
     case size
       when 0..KB_SIZE-1 then "#{size} bytes"
-      when KB_SIZE..MB_SIZE-1 then "#{size.fdiv(KB_SIZE).round(2)} Kb (#{size} bytes)"
-      when MB_SIZE..GB_SIZE-1 then "#{size.fdiv(MB_SIZE).round(2)} Mb (#{size} bytes)"
-      else "#{size.fdiv(GB_SIZE).round(2)} Gb (#{size} bytes)"
+      else create_tag(size)
+    end
+  end
+
+  def create_tag(size)
+    content_tag(:a, :href => '#', :rel => 'tooltip', "title" => "#{number_with_delimiter(size, :delimiter => ".")} bytes") do
+      "#{number_to_human_size(size, :precision => 2, :separator => '.')}"
     end
   end
 
