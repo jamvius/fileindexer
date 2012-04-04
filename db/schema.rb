@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120308085534) do
+ActiveRecord::Schema.define(:version => 20120404062717) do
 
   create_table "devices", :force => true do |t|
     t.string   "name"
@@ -60,6 +60,16 @@ ActiveRecord::Schema.define(:version => 20120308085534) do
   end
 
   add_index "indexed_files", ["parent_id"], :name => "index_indexed_files_on_parent_id"
+
+  create_table "indexer_options", :force => true do |t|
+    t.boolean "auto_analyze",    :default => false
+    t.boolean "auto_indexer",    :default => false
+    t.boolean "overwrite",       :default => false
+    t.boolean "recursive",       :default => false
+    t.integer "recursive_level", :default => 0
+    t.boolean "refresh_parent",  :default => true
+    t.boolean "show_unindexed",  :default => true
+  end
 
   create_table "indexer_tasks", :force => true do |t|
     t.string   "name"

@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Auto analyze:</b>
+  <%= @indexer_option.auto_analyze %>
+</p>
+
+<p>
+  <b>Auto indexer:</b>
+  <%= @indexer_option.auto_indexer %>
+</p>
+
+<p>
+  <b>Overwrite:</b>
+  <%= @indexer_option.overwrite %>
+</p>
+
+<p>
+  <b>Recursive:</b>
+  <%= @indexer_option.recursive %>
+</p>
+
+<p>
+  <b>Recursive level:</b>
+  <%= @indexer_option.recursive_level %>
+</p>
+
+<p>
+  <b>Refresh parent:</b>
+  <%= @indexer_option.refresh_parent %>
+</p>
+
+<p>
+  <b>Show unindexed:</b>
+  <%= @indexer_option.show_unindexed %>
+</p>
+
+
+<%= link_to 'Edit', edit_indexer_option_path(@indexer_option) %> |
+<%= link_to 'Back', indexer_options_path %>

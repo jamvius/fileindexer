@@ -19,3 +19,6 @@ device = Device.create(name: 'c:', description: 'HD trabajo\n windows -> c:\n li
 #IndexerTask.create(device_id: device.id, name: '/lab', status_task: status)
 #device2 = Device.create(name: 'h:', description: 'HD casa')
 #IndexerTask.create(device_id: device2.id, name: '/chess', status_task: status)
+
+#
+IndexerOption.create

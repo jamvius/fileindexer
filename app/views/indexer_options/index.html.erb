@@ -1,0 +1,35 @@
+<h1>Listing indexer_options</h1>
+
+<table>
+  <tr>
+    <th>Auto analyze</th>
+    <th>Auto indexer</th>
+    <th>Overwrite</th>
+    <th>Recursive</th>
+    <th>Recursive level</th>
+    <th>Refresh parent</th>
+    <th>Show unindexed</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @indexer_options.each do |indexer_option| %>
+  <tr>
+    <td><%= indexer_option.auto_analyze %></td>
+    <td><%= indexer_option.auto_indexer %></td>
+    <td><%= indexer_option.overwrite %></td>
+    <td><%= indexer_option.recursive %></td>
+    <td><%= indexer_option.recursive_level %></td>
+    <td><%= indexer_option.refresh_parent %></td>
+    <td><%= indexer_option.show_unindexed %></td>
+    <td><%= link_to 'Show', indexer_option %></td>
+    <td><%= link_to 'Edit', edit_indexer_option_path(indexer_option) %></td>
+    <td><%= link_to 'Destroy', indexer_option, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Indexer option', new_indexer_option_path %>

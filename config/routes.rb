@@ -1,4 +1,6 @@
 Fileindexer::Application.routes.draw do
+  resources :indexer_options
+
   get "searcher/index"
 
   get "home/index"

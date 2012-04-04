@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  auto_analyze: false
+  auto_indexer: false
+  overwrite: false
+  recursive: false
+  recursive_level: 1
+  refresh_parent: false
+  show_unindexed: false
+
+two:
+  auto_analyze: false
+  auto_indexer: false
+  overwrite: false
+  recursive: false
+  recursive_level: 1
+  refresh_parent: false
+  show_unindexed: false
