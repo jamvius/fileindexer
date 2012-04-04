@@ -8,3 +8,5 @@ rake db:migrate
 
 el db:setup ejecuta en schema.rb y el seed.rb, pero si se cambia los archivos de migrate no se actualiza el schema.rb
 automaticamente (no se cuando)
+
+rails generate scaffold IndexerOption auto_analyze:boolean auto_indexer:boolean overwrite:boolean recursive:boolean recursive_level:integer refresh_parent:boolean show_unindexed:boolean
