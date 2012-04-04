@@ -78,4 +78,16 @@ class IndexedDirectory < ActiveRecord::Base
     path
   end
 
+  def update_parents
+    actual_dir = self.parent
+    until actual_dir.nil? do
+      actual_dir.go_to
+      actual_dir.analyze_status
+      actual_dir.index_status
+      actual_dir.save
+      actual_dir = actual_dir.parent
+    end
+
+  end
+
 end
