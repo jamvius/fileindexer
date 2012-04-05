@@ -9,7 +9,7 @@
         <span class="label label-success">Full-Indexed</span>
     <% end %>
   </td>
-  <td><%= hsize(directory.size) %></td>
+  <td><%= hsize(directory.size + directory.recursive_size) %></td>
   <td>
     <%= link_to(directory) do %>
         <span class="icon-chevron-right icon-white"></span>

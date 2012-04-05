@@ -14,6 +14,8 @@ Fileindexer::Application.routes.draw do
       get 'indexing'
       get 'analyze'
       get 'update_stats'
+      get 'update_status'
+      get 'update_children_status'
     end
   end
 

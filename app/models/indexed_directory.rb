@@ -1,11 +1,13 @@
 require "modules/directory_helper"
 require "modules/analyzer_directory"
 require "modules/indexer_directory"
+require "modules/status_directory"
 
 class IndexedDirectory < ActiveRecord::Base
   include DirectoryHelper
   include AnalyzerDirectory
   include IndexerDirectory
+  include StatusDirectory
 
   belongs_to :parent, :class_name => "IndexedDirectory"
   belongs_to :device
@@ -13,6 +15,10 @@ class IndexedDirectory < ActiveRecord::Base
   has_many :indexed_directories, :foreign_key => "parent_id"
 
   ROOT_NAME = "/"
+
+  def partial_indexed?
+    !self.indexed? and (indexed_directories.size > 0 or indexed_files.size > 0)
+  end
 
   # NOTA: Para que esto sea un scope, deberia devolver un ActiveRecord:Relation,
   # pero al devolver un solo 1 registro,  no es posible

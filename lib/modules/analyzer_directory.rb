@@ -4,15 +4,13 @@ module AnalyzerDirectory
 
     self.go_to
 
+    self.analyze_content
+
     if self.recursive and (recursive or recursive_level > 0)
       self.add_new_directories
       self.indexed_directories.each { |directory|
         directory.analyze(recursive, overwrite, recursive_level-1)
       }
-    end
-
-    if !self.analyzed or overwrite
-      self.analyze_content
     end
 
     self.analyze_status

@@ -20,7 +20,7 @@
 </div>
 
 <div class="well">
-  <h2>Status</h2>
+  <h2>Status <%= link_to 'Update', update_status_indexed_directory_path(@indexed_directory), :class => 'btn btn-success btn-small' %></h2>
   <p>
     <strong>Size:</strong>
     <%= hsize(@indexed_directory.size) %>
@@ -44,10 +44,16 @@
     <strong>Num. Directories:</strong>
     <%= @indexed_directory.numdirectories %>
   </p>
+  <p>
+    <strong>Last Updated:</strong>
+    <%= @indexed_directory.updated_at.gmtime.strftime("%d/%m/%Y %H:%M") %>
+
+  </p>
+
 </div>
 
 <div class="well">
-  <h2>Childs Status</h2>
+  <h2>Childs Status <%= link_to 'Update', update_children_status_indexed_directory_path(@indexed_directory), :class => 'btn btn-success btn-small' %></h2>
 
   <p>
     <strong>Indexed:</strong>

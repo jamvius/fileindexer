@@ -4,16 +4,16 @@ module IndexerDirectory
 
     self.go_to
 
+    self.analyze_content
+    if (!self.indexed? and !self.partial_indexed?) or overwrite
+      self.index_content(overwrite)
+    end
+
     if self.recursive and (recursive or recursive_level > 0)
       self.add_new_directories
       self.indexed_directories.each { |directory|
         directory.index(recursive, overwrite, recursive_level-1)
       }
-    end
-
-    if !self.indexed or overwrite
-      self.analyze_content
-      self.index_content(overwrite)
     end
 
     self.analyze_status
@@ -22,7 +22,7 @@ module IndexerDirectory
   end
 
   def index_content(overwrite = false)
-    if self.indexed? and overwrite
+    if (self.indexed? or self.partial_indexed?) and overwrite
       self.mark_old_resources
       self.update_files
       self.add_new_directories
