@@ -2,7 +2,7 @@ class CreateIndexedFiles < ActiveRecord::Migration
   def change
     create_table :indexed_files do |t|
       t.string :name
-      t.integer :size, :default => -1
+      t.integer :size, :default => 0, :limit => 8
       t.string :md5
       t.references :parent
       t.boolean :symboliclink, :default => false

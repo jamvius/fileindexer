@@ -20,10 +20,10 @@ class CreateIndexedDirectories < ActiveRecord::Migration
       # Summary directory
       t.integer :numfiles, :default => 0
       t.integer :numdirectories, :default => 0
-      t.integer :size, :default => 0
+      t.integer :size, :default => 0, :limit => 8
 
       # Summary childrens
-      t.integer :recursive_size, :default => 0
+      t.integer :recursive_size, :default => 0, :limit => 8
       t.boolean :recursive_indexed, :default => false
       t.boolean :recursive_analyzed, :default => false
       t.integer :recursive_numfiles, :default => 0

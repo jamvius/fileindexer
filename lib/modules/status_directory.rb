@@ -1,7 +1,7 @@
 module StatusDirectory
 
   def update_status
-    self.go_to
+    logger.info "update_status #{self.id}:#{self.name}"
 
     self.numfiles = self.files.size
     self.numdirectories = self.directories.size
@@ -13,11 +13,10 @@ module StatusDirectory
       total + File.size(file)
     }
 
-    self.save
   end
 
   def update_children_status
-    self.go_to
+    logger.info "update_children_status #{self.id}:#{self.name}"
 
     self.recursive_analyzed = (self.directories.size == self.indexed_directories.size and
         self.indexed_directories.all? {|indexed_directory| indexed_directory.recursive_analyzed })
@@ -36,7 +35,6 @@ module StatusDirectory
       total + indexed_directory.size + indexed_directory.recursive_size
     }
 
-    self.save
   end
 
 end

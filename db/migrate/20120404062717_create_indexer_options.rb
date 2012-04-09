@@ -7,7 +7,7 @@ class CreateIndexerOptions < ActiveRecord::Migration
       t.boolean :recursive, :default => false
       t.integer :recursive_level, :default => 0
       t.boolean :refresh_parent, :default => true
-      t.boolean :show_unindexed, :default => true
+      t.boolean :show_changes, :default => true
     end
   end
 end
