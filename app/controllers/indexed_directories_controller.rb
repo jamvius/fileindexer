@@ -110,13 +110,17 @@ class IndexedDirectoriesController < ApplicationController
 
   def update_status
     indexed_directory = IndexedDirectory.find(params[:id])
-    indexed_directory.update_status
+    indexed_directory.goto_run_and_save do
+      update_status
+    end
     redirect_to indexed_directory, :notice => 'Status update'
   end
 
   def update_children_status
     indexed_directory = IndexedDirectory.find(params[:id])
-    indexed_directory.update_children_status
+    indexed_directory.goto_run_and_save do
+      update_children_status
+    end
     redirect_to indexed_directory, :notice => 'Children status update'
   end
 

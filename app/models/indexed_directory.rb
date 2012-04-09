@@ -96,4 +96,19 @@ class IndexedDirectory < ActiveRecord::Base
 
   end
 
+  def goto_run_and_save(&block)
+    logger.info "goto_run_and_save"
+    self.go_to
+    self.instance_eval &block
+    self.save
+  end
+
+  def up
+    puts "up #{self.id}"
+  end
+
+  def call_with_block
+    self.goto_run_and_save { up }
+  end
+
 end
