@@ -2,6 +2,8 @@ class Device < ActiveRecord::Base
   has_many :indexer_tasks
   has_many :indexed_directories
 
+  attr_accessible :name, :description, :uuid
+
   FILEKEY_NAME = "filename.key"
   UUID_ERROR = :device_not_writable
 

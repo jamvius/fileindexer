@@ -12,9 +12,9 @@
   <tr>
     <th>Name</th>
     <th>Description</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>UUID</th>
+    <th>Status</th>
+    <th colspan="4">Actions</th>
   </tr>
   </thead>
 <tbody>
@@ -22,6 +22,8 @@
   <tr>
     <td><%= device.name %></td>
     <td><%= device.description %></td>
+    <td><%= device.uuid %></td>
+    <td><%= device.validate_filekey? %></td>
     <td><%= link_to 'Show', device %></td>
     <td><%= link_to 'Edit', edit_device_path(device) %></td>
     <td><%= link_to 'Go root', go_root_device_path(device) %></td>
