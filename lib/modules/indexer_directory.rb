@@ -103,13 +103,28 @@ module IndexerDirectory
   def add_all_files
 
     if self.files.size > 0
-      t = Time.now
+      t = Time.now.utc
       values = self.files.collect { |file| "(\"#{file}\",#{File.size(file)},#{self.id},\"#{t}\",\"#{t}\")" }
       massive_query = "INSERT INTO indexed_files (name, size, parent_id, created_at, updated_at) VALUES #{values.join(',')}"
 
       self.connection.execute massive_query
       self.indexed_files.reload
     end
+  end
+
+  def add_new_files
+
+    list_files = find_new_files
+    if list_files.size > 0
+      t = Time.now.utc
+      values = list_files.collect { |file| "(\"#{file}\",#{File.size(file)},#{self.id},\"#{t}\",\"#{t}\")" }
+      massive_query = "INSERT INTO indexed_files (name, size, parent_id, created_at, updated_at) VALUES #{values.join(',')}"
+
+      self.connection.execute massive_query
+      self.indexed_files.reload
+    end
+
+
   end
 
 

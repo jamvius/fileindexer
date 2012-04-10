@@ -90,6 +90,12 @@ class IndexedDirectoriesController < ApplicationController
     redirect_to @indexed_directory
   end
 
+  def reindexing
+    @indexed_directory = IndexedDirectory.find(params[:id])
+    @indexed_directory.index(false, true)
+    redirect_to @indexed_directory
+  end
+
   def analyze
     @indexed_directory = IndexedDirectory.find(params[:id])
     @indexed_directory.analyze
