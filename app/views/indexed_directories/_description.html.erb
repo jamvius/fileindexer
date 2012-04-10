@@ -1,5 +1,5 @@
 <div class="well">
-  <h2>Definition</h2>
+  <h2>Definition <%= link_to 'Edit', edit_indexed_directory_path(@indexed_directory), :class => 'btn btn-success btn-small' %></h2>
   <p>
     <strong>Indexable:</strong>
     <%= @indexed_directory.indexable %>
@@ -81,4 +81,5 @@
     <%= @indexed_directory.recursive_numdirectories %>
   </p>
 </div>
+
 

@@ -8,6 +8,9 @@
     <% if directory.recursive_indexed? %>
         <span class="label label-success">Full-Indexed</span>
     <% end %>
+    <% if directory.deleted? %>
+        <span class="label label-important">Deleted</span>
+    <% end %>
   </td>
   <td><%= hsize(directory.size + directory.recursive_size) %></td>
   <td>

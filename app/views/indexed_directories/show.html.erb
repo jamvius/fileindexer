@@ -1,5 +1,5 @@
 <div class="well">
-  <h2><%= @indexed_directory.name %></h2>
+  <h2><%= @indexed_directory.name %> </h2>
   <ul class="nav nav-pills">
     <li class="active">
       <%= link_to @indexed_directory.device.name, device_path(@indexed_directory.device.id) %>
@@ -10,15 +10,13 @@
         </li>
     <% end %>
   </ul>
+  <%= render 'indexer_button' %>
 </div>
 
 <% content_for :menu do %>
 
     <%= render 'description' %>
 
-    <%= link_to 'Edit', edit_indexed_directory_path(@indexed_directory), :class => 'btn btn-primary btn-large' %>
-    <%= link_to 'Indexing', indexing_indexed_directory_path(@indexed_directory), :class => 'btn btn-primary btn-large' %>
-    <%= link_to 'Analyze', analyze_indexed_directory_path(@indexed_directory), :class => 'btn btn-primary btn-large' %>
 
     <%= render 'commons/options' %>
 

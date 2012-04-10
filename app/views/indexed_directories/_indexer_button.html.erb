@@ -1,0 +1,5 @@
+<% if !@indexed_directory.indexed? and !@indexed_directory.partial_indexed? %>
+    <%= link_to 'Indexing', indexing_indexed_directory_path(@indexed_directory), :class => 'btn btn-success btn-large' %>
+<% else %>
+    <%= link_to 'Reindexing', reindexing_indexed_directory_path(@indexed_directory), :class => 'btn btn-success btn-large' %>
+<% end %>
