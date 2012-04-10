@@ -46,7 +46,7 @@
   </p>
   <p>
     <strong>Last Updated:</strong>
-    <%= @indexed_directory.updated_at.gmtime.strftime("%d/%m/%Y %H:%M") %>
+    <%= @indexed_directory.updated_at.getlocal.strftime("%d/%m/%Y %H:%M") %>
 
   </p>
 

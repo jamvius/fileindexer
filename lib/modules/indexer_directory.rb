@@ -76,7 +76,7 @@ module IndexerDirectory
   def add_all_directories
 
     if self.directories.size > 0
-      t = Time.now
+      t = Time.now.utc
       values = self.directories.collect { |directory| "('#{directory}',#{self.id},#{self.device.id},'#{t}','#{t}')" }
       massive_query = "INSERT INTO indexed_directories (name, parent_id, device_id, created_at, updated_at) VALUES #{values.join(',')}"
       self.connection.execute massive_query
@@ -89,7 +89,7 @@ module IndexerDirectory
 
     list_directories = find_new_directories
     if list_directories.size > 0
-      t = Time.now
+      t = Time.now.utc
       values = list_directories.collect { |directory| "('#{directory}',#{self.id},#{self.device.id},'#{t}','#{t}')" }
       massive_query = "INSERT INTO indexed_directories (name, parent_id, device_id, created_at, updated_at) VALUES #{values.join(',')}"
       self.connection.execute massive_query
